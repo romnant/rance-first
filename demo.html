@@ -74,7 +74,6 @@
             var prev = document.getElementById('prev');
             var next = document.getElementById('next');
             var index = 1;
-            
             function animate(offset){
                 var newLeft = parseInt(list.style.left) + offset;
                 list.style.left = newLeft + 'px';
@@ -92,20 +91,18 @@
                 else{
                     index +=1;
                 }
-                
-                showButton();
                 animate(-600);
-                
+                showButton();
             }
             prev.onclick = function(){
-                if(index ==0){
-                    index =5;
+                if (index == 1) {
+                    index = 5;
                 }
-                else{
-                    index -=1;
+                else {
+                    index -= 1;
                 }
-                showButton();
                 animate(600);
+                showButton();    
             }
             function showButton() {
                 for (var i = 0; i < buttons.length ; i++) {
@@ -115,6 +112,18 @@
                     }
                 }
                 buttons[index - 1].className = 'on';
+            }
+            for(var i =0;i < buttons.length; i++){
+                buttons[i].onclick = function () {
+                    if(this.className == 'on'){
+                        return;
+                    }
+                    var myIndex= parseInt(this.getAttribute('index'));
+                    var offset = -600 * (myIndex - index);
+                    animate(offset);
+                    index = myIndex;
+                    showButton();
+                }
             }
         }
     </script>
