@@ -74,6 +74,8 @@
             var prev = document.getElementById('prev');
             var next = document.getElementById('next');
             var index = 1;
+            var timer;
+            var interval = 3000;
             var animated = false;
             function animate(offset){
                 if (offset == 0) {
@@ -81,13 +83,13 @@
                 }
                 animated = true;
                 var time = 300;//位移总时间
-                var interval = 10;//位移相隔时间
-                var speed = offset/(time/interval);//每次位移量
+                var inteval = 10;//位移相隔时间
+                var speed = offset/(time/inteval);//每次位移量
                 var newLeft = parseInt(list.style.left) + offset;
                 var go = function(){
                     if(speed < 0 && parseInt(list.style.left) > newLeft ||speed > 0 && parseInt(list.style.left) < newLeft){
                         list.style.left = parseInt(list.style.left) + speed + 'px';
-                        setTimeout(go, interval);
+                        setTimeout(go, inteval);
                     }
                     else{
                         list.style.left = newLeft + 'px';
@@ -137,6 +139,15 @@
                 }
                 buttons[index - 1].className = 'on';
             }
+            function play(){
+                timer = setInterval(function (){
+                    next.onclick();
+                    play();
+                },interval);
+            }
+            function stop() {
+                clearInterval(timer);
+            }
             for(var i =0;i < buttons.length; i++){
                 buttons[i].onclick = function () {
                     if (animated) {
@@ -152,6 +163,9 @@
                     showButton();
                 }
             }
+            container.onmouseover = stop;
+            container.onmouseout = play;
+            play();
         }
     </script>
 </head>
